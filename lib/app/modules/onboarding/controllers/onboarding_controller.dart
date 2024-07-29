@@ -1,3 +1,4 @@
+import 'package:expensify_app/app/modules/authentication/views/authentication_view.dart';
 import 'package:get/get.dart';
 
 class OnboardingController extends GetxController {
@@ -5,7 +6,7 @@ class OnboardingController extends GetxController {
 
   Future<void> _navigatetoSecondOnboardingScreen() async {
     Future.delayed(Duration(seconds: 4), () {
-      //Get.to(()=>);
+      Get.to(() => AuthenticationView());
     });
   }
 
