@@ -13,29 +13,27 @@ class OnboardingView extends GetView<OnboardingController> {
     Get.put(OnboardingController());
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SvgPicture.asset("assets/images/expensify_logo.svg"),
-            SizedBox(
-              height: screenSize.height * 0.02,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Center(child: SvgPicture.asset("assets/images/expensify_logo.svg")),
+          SizedBox(
+            height: screenSize.height * 0.02,
+          ),
+          MediaQuery(
+            data: MediaQuery.of(context)
+                .copyWith(textScaler: TextScaler.linear(1.0)),
+            child: Text(
+              "Expensify",
+              style: GoogleFonts.inter(
+                  textStyle: TextStyle(
+                      fontSize: 24,
+                      color: AppColors.logocolor,
+                      fontWeight: FontWeight.w800)),
             ),
-            MediaQuery(
-              data: MediaQuery.of(context)
-                  .copyWith(textScaler: TextScaler.linear(1.0)),
-              child: Text(
-                "Expensify",
-                style: GoogleFonts.inter(
-                    textStyle: TextStyle(
-                        fontSize: 24,
-                        color: AppColors.logocolor,
-                        fontWeight: FontWeight.w800)),
-              ),
-            )
-          ],
-        ),
+          )
+        ],
       ),
     );
   }

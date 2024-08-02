@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>269625538961-veul1pc9lecn09eq0kij40elsmp0gss5.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.269625538961-veul1pc9lecn09eq0kij40elsmp0gss5</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDlhkto5PH3SMwbIUkYu9JVDdEayn9fwus</string>
+	<key>GCM_SENDER_ID</key>
+	<string>269625538961</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.expensifyapp.expensifyApp</string>
+	<key>PROJECT_ID</key>
+	<string>expensify-c0b3f</string>
+	<key>STORAGE_BUCKET</key>
+	<string>expensify-c0b3f.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:269625538961:ios:350f7c92a9530dfe080230</string>
+</dict>
+</plist>
