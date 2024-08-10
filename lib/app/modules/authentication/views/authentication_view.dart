@@ -2,7 +2,6 @@ import 'package:expensify_app/app/data/values/appcolors.dart';
 import 'package:expensify_app/app/modules/authentication/views/registerscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -17,6 +16,9 @@ class AuthenticationView extends GetView<AuthenticationController> {
         Get.put(AuthenticationController());
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+      ),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -48,6 +50,7 @@ class AuthenticationView extends GetView<AuthenticationController> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: TextField(
+                cursorColor: AppColors.logocolor,
                 controller: controller.usernametext,
                 decoration: InputDecoration(
                     prefixIcon: Image.asset("assets/images/icon.png"),
@@ -76,6 +79,7 @@ class AuthenticationView extends GetView<AuthenticationController> {
               () => Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: TextField(
+                  cursorColor: AppColors.logocolor,
                   controller: controller.passwordtext,
                   obscureText: !controller.isPasswordVisible.value,
                   decoration: InputDecoration(
@@ -162,6 +166,7 @@ class AuthenticationView extends GetView<AuthenticationController> {
                 child: ElevatedButton.icon(
                   onPressed: () {
                     // Handle Google login action
+                    controller.googleSigninMethod();
                   },
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.symmetric(vertical: 16),

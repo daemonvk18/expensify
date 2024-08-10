@@ -42,6 +42,7 @@ class RegisterPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: TextField(
+              cursorColor: AppColors.logocolor,
               controller: authenticationController.emailtext_register,
               decoration: InputDecoration(
                   prefixIcon: Image.asset("assets/images/icon.png"),
@@ -69,6 +70,7 @@ class RegisterPage extends StatelessWidget {
             () => Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: TextField(
+                cursorColor: AppColors.logocolor,
                 controller: authenticationController.passwordtext_register,
                 obscureText: !authenticationController.ispasswordvisible.value,
                 decoration: InputDecoration(
@@ -98,6 +100,7 @@ class RegisterPage extends StatelessWidget {
             () => Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: TextField(
+                cursorColor: AppColors.logocolor,
                 controller: authenticationController.confirmpassword,
                 obscureText:
                     !authenticationController.isConfirmPasswordVisible.value,
@@ -135,7 +138,8 @@ class RegisterPage extends StatelessWidget {
                   // Handle login action
                   authenticationController.registerMethod(
                       authenticationController.emailtext_register.text,
-                      authenticationController.passwordtext_register.text);
+                      authenticationController.passwordtext_register.text,
+                      authenticationController.confirmpassword.text);
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.logobluecolor,
