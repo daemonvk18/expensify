@@ -10,4 +10,6 @@ abstract class AppColors {
   static Color googletext = Color(0xFF242D35);
   static Color googleboxborder = Color(0xFFB0B8BF);
   static Color lightgreycolor = Colors.grey.shade100;
+  static Color redcolor = Color(0xFFE53935);
+  static Color balancegreenColor = Color(0xFF00897B);
 }
