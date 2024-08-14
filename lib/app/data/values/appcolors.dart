@@ -12,4 +12,5 @@ abstract class AppColors {
   static Color lightgreycolor = Colors.grey.shade100;
   static Color redcolor = Color(0xFFE53935);
   static Color balancegreenColor = Color(0xFF00897B);
+  static Color categorynameColor = Color(0xFF616161);
 }

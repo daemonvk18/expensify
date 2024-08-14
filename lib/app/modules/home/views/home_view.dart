@@ -1,4 +1,5 @@
 import 'package:expensify_app/app/data/values/appcolors.dart';
+import 'package:expensify_app/app/modules/home/models/expensecardmodel.dart';
 import 'package:expensify_app/app/modules/home/widgets/expensecard.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -229,16 +230,53 @@ class HomeView extends GetView<HomeController> {
               padding: EdgeInsets.symmetric(
                   horizontal: screenSize.height * 0.02,
                   vertical: screenSize.height * 0.02),
-              //height: screenSize.height * 0.4,
+              height: screenSize.height * 0.3,
               child: ListView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: 3,
+                  padding: EdgeInsets.zero,
+                  //physics: NeverScrollableScrollPhysics(),
+                  itemCount: todaydetailsdata.length,
                   itemBuilder: (context, index) {
-                    return ExpenseCard();
+                    final expenses = todaydetailsdata;
+                    return ExpenseCard(
+                      imageUrl: expenses[index].expenseCategorylogo,
+                      title: expenses[index].expenseTitle,
+                      category: expenses[index].expenseCategory,
+                      amount: expenses[index].amount,
+                    );
                   }),
             ),
-          )
+          ),
+          SizedBox(
+            height: screenSize.height * 0.02,
+          ),
+          //yesterday expenses container
+          Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: screenSize.height * 0.02,
+            ),
+            child: Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.grey.shade400, width: 2)),
+              padding: EdgeInsets.symmetric(
+                  horizontal: screenSize.height * 0.02,
+                  vertical: screenSize.height * 0.02),
+              height: screenSize.height * 0.3,
+              child: ListView.builder(
+                  padding: EdgeInsets.zero,
+                  //physics: NeverScrollableScrollPhysics(),
+                  itemCount: yesterdaydetailsdata.length,
+                  itemBuilder: (context, index) {
+                    final expenses = yesterdaydetailsdata;
+                    return ExpenseCard(
+                      imageUrl: expenses[index].expenseCategorylogo,
+                      title: expenses[index].expenseTitle,
+                      category: expenses[index].expenseCategory,
+                      amount: expenses[index].amount,
+                    );
+                  }),
+            ),
+          ),
         ],
       ),
     ));
