@@ -1,15 +1,19 @@
-import 'package:expensify_app/app/modules/authentication/controllers/authentication_controller.dart';
 import 'package:expensify_app/app/modules/authentication/views/authentication_view.dart';
+import 'package:expensify_app/app/modules/navbar/views/navbar_view.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class OnboardingController extends GetxController {
-  final AuthenticationController authenticationController =
-      Get.put(AuthenticationController());
+  final box = GetStorage();
 
   Future<void> _navigatetoSecondOnboardingScreen() async {
     Future.delayed(Duration(seconds: 4), () {
-      //check if some is already logged or registered in ,if they are directly go to the home
-      Get.offAll(() => AuthenticationView());
+      //verify if some has logged in before
+      if (box.read('email') != null) {
+        Get.offAll(() => NavbarView());
+      } else {
+        Get.offAll(() => AuthenticationView());
+      }
     });
   }
 

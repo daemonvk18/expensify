@@ -66,6 +66,35 @@ class RegisterPage extends StatelessWidget {
           SizedBox(
             height: screenSize.height * 0.03,
           ),
+          //username
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: TextField(
+              cursorColor: AppColors.logocolor,
+              controller: authenticationController.usernametext,
+              decoration: InputDecoration(
+                  prefixIcon: Image.asset("assets/images/icon.png"),
+                  hintText: 'Username',
+                  focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: AppColors.logocolor),
+                      borderRadius: BorderRadius.circular(30)),
+                  errorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: AppColors.logocolor),
+                      borderRadius: BorderRadius.circular(30)),
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(color: AppColors.logocolor),
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: AppColors.logocolor),
+                      borderRadius: BorderRadius.circular(30)),
+                  filled: true),
+            ),
+          ),
+          SizedBox(
+            height: screenSize.height * 0.03,
+          ),
+
           Obx(
             () => Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -137,9 +166,11 @@ class RegisterPage extends StatelessWidget {
                 onPressed: () {
                   // Handle login action
                   authenticationController.registerMethod(
-                      authenticationController.emailtext_register.text,
-                      authenticationController.passwordtext_register.text,
-                      authenticationController.confirmpassword.text);
+                    authenticationController.emailtext_register.text,
+                    authenticationController.usernametext.text,
+                    authenticationController.passwordtext_register.text,
+                    authenticationController.confirmpassword.text,
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.logobluecolor,

@@ -13,4 +13,6 @@ abstract class AppColors {
   static Color redcolor = Color(0xFFE53935);
   static Color balancegreenColor = Color(0xFF00897B);
   static Color categorynameColor = Color(0xFF616161);
+  static Color fabcolor = Color(0xFF007BEF);
+  static Color headingsgreycolor = Color(0xFF424242);
 }
