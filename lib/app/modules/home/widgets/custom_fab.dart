@@ -4,7 +4,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CustomFAB extends StatelessWidget {
-  const CustomFAB({super.key});
+  const CustomFAB({super.key, required this.title, required this.onTap});
+  final String title;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +15,6 @@ class CustomFAB extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: screensize.height * 0.1),
       child: Container(
         height: 60,
-        width: 140,
         alignment: Alignment.center,
         decoration: BoxDecoration(
             color: AppColors.fabcolor,
@@ -33,9 +34,12 @@ class CustomFAB extends StatelessWidget {
           children: [
             //add icon
             SvgPicture.asset("assets/images/add_new.svg"),
+            SizedBox(
+              width: screensize.height * 0.01,
+            ),
             //add new
             Text(
-              "Add new",
+              "${title}",
               style: GoogleFonts.inter(
                   textStyle: TextStyle(
                       fontSize: 14,

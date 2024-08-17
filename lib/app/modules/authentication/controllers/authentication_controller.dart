@@ -1,3 +1,4 @@
+import 'package:expensify_app/app/modules/authentication/views/authentication_view.dart';
 import 'package:expensify_app/app/modules/navbar/views/navbar_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +30,7 @@ class AuthenticationController extends GetxController {
   }
 
   FirebaseAuth _auth = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
   late Rx<User?> _user;
   final box = GetStorage();
 
@@ -104,8 +106,17 @@ class AuthenticationController extends GetxController {
   }
 
   void signoutmethod() async {
-    await _auth.signOut();
-    await box.remove('email');
+    try {
+      //first signout from google
+      await _googleSignIn.signOut();
+      //then singout from firebase
+      await _auth.signOut();
+      //delete the email from box storage
+      await box.remove('email');
+      Get.offAll(() => AuthenticationView());
+    } catch (e) {
+      print(e);
+    }
   }
 
   // ignore: unused_element

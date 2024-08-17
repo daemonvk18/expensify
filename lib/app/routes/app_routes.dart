@@ -9,6 +9,7 @@ abstract class Routes {
   static const NAVBAR = _Paths.NAVBAR;
   static const REPORT = _Paths.REPORT;
   static const SETTINGS = _Paths.SETTINGS;
+  static const ADDNEW = _Paths.ADDNEW;
 }
 
 abstract class _Paths {
@@ -19,4 +20,5 @@ abstract class _Paths {
   static const NAVBAR = '/navbar';
   static const REPORT = '/report';
   static const SETTINGS = '/settings';
+  static const ADDNEW = '/addnew';
 }

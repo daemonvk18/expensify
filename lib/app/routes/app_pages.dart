@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/addnew/bindings/addnew_binding.dart';
+import '../modules/addnew/views/addnew_view.dart';
 import '../modules/authentication/bindings/authentication_binding.dart';
 import '../modules/authentication/views/authentication_view.dart';
 import '../modules/home/bindings/home_binding.dart';
@@ -50,6 +52,11 @@ class AppPages {
       name: _Paths.SETTINGS,
       page: () => const SettingsView(),
       binding: SettingsBinding(),
+    ),
+    GetPage(
+      name: _Paths.ADDNEW,
+      page: () => const AddnewView(),
+      binding: AddnewBinding(),
     ),
   ];
 }

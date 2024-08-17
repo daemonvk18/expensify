@@ -2,6 +2,7 @@ import 'package:expensify_app/app/modules/authentication/views/authentication_vi
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class SettingsController extends GetxController {
   // ignore: unused_field
@@ -17,11 +18,13 @@ class SettingsController extends GetxController {
   }
 
   FirebaseAuth _auth = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   void signoutmethod() async {
+    await _googleSignIn.signOut();
     await _auth.signOut();
-    Get.offAll(() => AuthenticationView());
     await box.remove('email');
+    Get.offAll(() => AuthenticationView());
   }
 
   final count = 0.obs;
