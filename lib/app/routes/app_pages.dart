@@ -12,6 +12,8 @@ import '../modules/onboarding/bindings/onboarding_binding.dart';
 import '../modules/onboarding/views/onboarding_view.dart';
 import '../modules/report/bindings/report_binding.dart';
 import '../modules/report/views/report_view.dart';
+import '../modules/searchoption/bindings/searchoption_binding.dart';
+import '../modules/searchoption/views/searchoption_view.dart';
 import '../modules/settings/bindings/settings_binding.dart';
 import '../modules/settings/views/settings_view.dart';
 
@@ -57,6 +59,11 @@ class AppPages {
       name: _Paths.ADDNEW,
       page: () => const AddnewView(),
       binding: AddnewBinding(),
+    ),
+    GetPage(
+      name: _Paths.SEARCHOPTION,
+      page: () => const SearchoptionView(),
+      binding: SearchoptionBinding(),
     ),
   ];
 }

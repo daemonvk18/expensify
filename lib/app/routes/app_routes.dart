@@ -10,6 +10,8 @@ abstract class Routes {
   static const REPORT = _Paths.REPORT;
   static const SETTINGS = _Paths.SETTINGS;
   static const ADDNEW = _Paths.ADDNEW;
+  static const SEARCH = _Paths.SEARCH;
+  static const SEARCHOPTION = _Paths.SEARCHOPTION;
 }
 
 abstract class _Paths {
@@ -21,4 +23,6 @@ abstract class _Paths {
   static const REPORT = '/report';
   static const SETTINGS = '/settings';
   static const ADDNEW = '/addnew';
+  static const SEARCH = '/search';
+  static const SEARCHOPTION = '/searchoption';
 }
