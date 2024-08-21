@@ -1,4 +1,3 @@
-import 'package:expensify_app/app/data/values/appcolors.dart';
 import 'package:expensify_app/app/modules/addnew/controllers/addnew_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
