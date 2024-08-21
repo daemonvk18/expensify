@@ -1,11 +1,9 @@
 import 'package:expensify_app/app/data/values/appcolors.dart';
 import 'package:expensify_app/app/modules/addnew/views/addnew_view.dart';
-import 'package:expensify_app/app/modules/home/models/expensecardmodel.dart';
 import 'package:expensify_app/app/modules/home/widgets/custom_fab.dart';
 import 'package:expensify_app/app/modules/home/widgets/expensecard.dart';
 import 'package:expensify_app/app/modules/searchoption/views/searchoption_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
@@ -252,9 +250,9 @@ class HomeView extends GetView<HomeController> {
                     child: ListView.builder(
                         padding: EdgeInsets.zero,
                         //physics: NeverScrollableScrollPhysics(),
-                        itemCount: todaydetailsdata.length,
+                        itemCount: controller.todaydetailsdata.length,
                         itemBuilder: (context, index) {
-                          final expenses = todaydetailsdata;
+                          final expenses = controller.todaydetailsdata;
                           return ExpenseCard(
                             imageUrl: expenses[index].expenseCategorylogo,
                             title: expenses[index].expenseTitle,
@@ -284,9 +282,9 @@ class HomeView extends GetView<HomeController> {
                     child: ListView.builder(
                         padding: EdgeInsets.zero,
                         //physics: NeverScrollableScrollPhysics(),
-                        itemCount: yesterdaydetailsdata.length,
+                        itemCount: controller.yesterdaydetailsdata.length,
                         itemBuilder: (context, index) {
-                          final expenses = yesterdaydetailsdata;
+                          final expenses = controller.yesterdaydetailsdata;
                           return ExpenseCard(
                             imageUrl: expenses[index].expenseCategorylogo,
                             title: expenses[index].expenseTitle,

@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:get/get.dart';
 
 class AddnewController extends GetxController {
@@ -24,7 +22,7 @@ class AddnewController extends GetxController {
     {'name': 'Wages', 'icon': 'assets/images/Donate.svg'},
     {'name': 'Interest', 'icon': 'assets/images/Institute.svg'},
     {'name': 'Savings', 'icon': 'assets/images/Savings.svg'},
-    {'name': 'Allownace', 'icon': 'assets/images/allowance.svg'},
+    {'name': 'Allowance', 'icon': 'assets/images/allowance.svg'},
   ];
 
   void updateCategory(String category) async {

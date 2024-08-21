@@ -49,6 +49,7 @@ class AddnewView extends GetView<AddnewController> {
                         border: Border.all(color: AppColors.headingsgreycolor),
                         borderRadius: BorderRadius.circular(12)),
                     child: DropdownButton<String>(
+                      underline: null,
                       isExpanded: true,
                       value: addnewController.selectedType.value,
                       items: <String>['Expense', 'Income'].map((String value) {
@@ -164,23 +165,28 @@ class AddnewView extends GetView<AddnewController> {
                   visible: addnewController.amount.value.isNotEmpty,
                   child: Align(
                     alignment: Alignment.bottomCenter,
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: AppColors.fabcolor,
-                          borderRadius: BorderRadius.circular(12)),
+                    child: Padding(
                       padding: EdgeInsets.symmetric(
-                          horizontal: screenSize.height * 0.02,
-                          vertical: screenSize.height * 0.02),
-                      child: Text(
-                        "Add expense",
-                        style: GoogleFonts.inter(
-                            textStyle: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600,
-                                color: AppColors.lightthemeprimaryColor)),
+                          horizontal: screenSize.height * 0.02),
+                      child: Container(
+                        alignment: Alignment.center,
+                        width: screenSize.width,
+                        decoration: BoxDecoration(
+                            color: AppColors.fabcolor,
+                            borderRadius: BorderRadius.circular(54)),
+                        padding: EdgeInsets.symmetric(
+                            vertical: screenSize.height * 0.02),
+                        child: Text(
+                          "Add expense",
+                          style: GoogleFonts.inter(
+                              textStyle: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.lightthemeprimaryColor)),
+                        ),
                       ),
                     ),
-                  )))
+                  ))),
             ],
           ),
         ));

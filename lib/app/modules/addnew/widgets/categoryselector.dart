@@ -1,6 +1,8 @@
 import 'package:expensify_app/app/data/values/appcolors.dart';
+import 'package:expensify_app/app/modules/addcategory/views/addcategory_view.dart';
 import 'package:expensify_app/app/modules/addnew/controllers/addnew_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
@@ -49,19 +51,24 @@ class CategorySelector extends StatelessWidget {
                       ),
                     );
                   })),
-          Container(
-            padding: EdgeInsets.symmetric(
-                horizontal: screenSize.height * 0.01,
-                vertical: screenSize.height * 0.01),
-            decoration: BoxDecoration(
-                border: Border.all(color: AppColors.textmediumGreyColor),
-                borderRadius: BorderRadius.circular(10)),
-            child: Text(
-              'Add new category',
-              style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.fabcolor),
+          GestureDetector(
+            onTap: () {
+              Get.to(() => AddcategoryView());
+            },
+            child: Container(
+              padding: EdgeInsets.symmetric(
+                  horizontal: screenSize.height * 0.01,
+                  vertical: screenSize.height * 0.01),
+              decoration: BoxDecoration(
+                  border: Border.all(color: AppColors.textmediumGreyColor),
+                  borderRadius: BorderRadius.circular(10)),
+              child: Text(
+                'Add new category',
+                style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.fabcolor),
+              ),
             ),
           ),
         ],

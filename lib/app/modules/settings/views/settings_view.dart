@@ -1,4 +1,5 @@
 import 'package:expensify_app/app/data/values/appcolors.dart';
+import 'package:expensify_app/app/modules/settings/widgets/logoutdialogbox.dart';
 import 'package:expensify_app/app/modules/settings/widgets/settingsoptioncards.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -124,7 +125,11 @@ class SettingsView extends GetView<SettingsController> {
           //logout option
           GestureDetector(
             onTap: () {
-              controller.signoutmethod();
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return LogoutDialogBox();
+                  });
             },
             child: ListTile(
               leading: SvgPicture.asset("assets/images/logout.svg"),

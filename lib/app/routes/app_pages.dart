@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/addcategory/bindings/addcategory_binding.dart';
+import '../modules/addcategory/views/addcategory_view.dart';
 import '../modules/addnew/bindings/addnew_binding.dart';
 import '../modules/addnew/views/addnew_view.dart';
 import '../modules/authentication/bindings/authentication_binding.dart';
@@ -64,6 +66,11 @@ class AppPages {
       name: _Paths.SEARCHOPTION,
       page: () => const SearchoptionView(),
       binding: SearchoptionBinding(),
+    ),
+    GetPage(
+      name: _Paths.ADDCATEGORY,
+      page: () => const AddcategoryView(),
+      binding: AddcategoryBinding(),
     ),
   ];
 }
