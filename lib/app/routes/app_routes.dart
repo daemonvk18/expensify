@@ -13,6 +13,7 @@ abstract class Routes {
   static const SEARCH = _Paths.SEARCH;
   static const SEARCHOPTION = _Paths.SEARCHOPTION;
   static const ADDCATEGORY = _Paths.ADDCATEGORY;
+  static const MANAGECATEGORY = _Paths.MANAGECATEGORY;
 }
 
 abstract class _Paths {
@@ -27,4 +28,5 @@ abstract class _Paths {
   static const SEARCH = '/search';
   static const SEARCHOPTION = '/searchoption';
   static const ADDCATEGORY = '/addcategory';
+  static const MANAGECATEGORY = '/managecategory';
 }

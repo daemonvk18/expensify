@@ -13,6 +13,5 @@ void main() async {
   await GetStorage.init();
   //injecting the homecontroller
   Get.put(HomeController());
-  runApp(DevicePreview(
-      enabled: !kReleaseMode, builder: (context) => const MyApp()));
+  runApp(DevicePreview(enabled: !kReleaseMode, builder: (context) => MyApp()));
 }

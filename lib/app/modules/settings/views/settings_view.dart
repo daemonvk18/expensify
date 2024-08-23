@@ -1,4 +1,7 @@
 import 'package:expensify_app/app/data/values/appcolors.dart';
+import 'package:expensify_app/app/modules/addnew/controllers/addnew_controller.dart';
+import 'package:expensify_app/app/modules/managecategory/views/managecategory_view.dart';
+import 'package:expensify_app/app/modules/settings/widgets/languagepage.dart';
 import 'package:expensify_app/app/modules/settings/widgets/logoutdialogbox.dart';
 import 'package:expensify_app/app/modules/settings/widgets/settingsoptioncards.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +18,8 @@ class SettingsView extends GetView<SettingsController> {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     final SettingsController controller = Get.put(SettingsController());
+    // ignore: unused_local_variable
+    final AddnewController addnewController = Get.put(AddnewController());
     return Scaffold(
       //seetings text
       body: Column(
@@ -34,7 +39,7 @@ class SettingsView extends GetView<SettingsController> {
                     height: screenSize.height * 0.01,
                   ),
                   Text(
-                    "Settings",
+                    "settings".tr,
                     style: GoogleFonts.inter(
                         textStyle: TextStyle(
                             fontSize: 25,
@@ -56,7 +61,7 @@ class SettingsView extends GetView<SettingsController> {
                         decoration: BoxDecoration(
                             shape: BoxShape.circle, color: Color(0xFFFFFFFF)),
                         child: Text(
-                          controller.firstLetter.toUpperCase(),
+                          controller.firstLetter.toUpperCase().tr,
                           style: GoogleFonts.inter(
                               textStyle: TextStyle(
                                   fontWeight: FontWeight.w600,
@@ -73,7 +78,7 @@ class SettingsView extends GetView<SettingsController> {
                         children: [
                           //name
                           Text(
-                            controller.username,
+                            '${controller.username}'.tr,
                             style: GoogleFonts.inter(
                                 textStyle: TextStyle(
                                     fontSize: 20,
@@ -82,7 +87,7 @@ class SettingsView extends GetView<SettingsController> {
                           ),
                           //email id
                           Text(
-                            controller.emailid,
+                            controller.emailid.tr,
                             style: GoogleFonts.inter(
                                 textStyle: TextStyle(
                                     fontSize: 14,
@@ -105,19 +110,23 @@ class SettingsView extends GetView<SettingsController> {
           SettingOptions(
               imageUrl: "assets/images/manage_category.svg",
               optionName: 'Manage Categories',
-              onTap: () {}),
+              onTap: () {
+                Get.to(() => ManagecategoryView());
+              }),
           SettingOptions(
               imageUrl: "assets/images/exportpdf.svg",
               optionName: 'Export to PDF',
               onTap: () {}),
-          SettingOptions(
-              imageUrl: "assets/images/currency.svg",
-              optionName: "Choose currency",
-              onTap: () {}),
-          SettingOptions(
-              imageUrl: "assets/images/language.svg",
-              optionName: "Choose language",
-              onTap: () {}),
+          // SettingOptions(
+          //     imageUrl: "assets/images/currency.svg",
+          //     optionName: "Choose currency",
+          //     onTap: () {}),
+          // SettingOptions(
+          //     imageUrl: "assets/images/language.svg",
+          //     optionName: "Choose language",
+          //     onTap: () {
+          //       Get.to(() => LanguagePage());
+          //     }),
           SettingOptions(
               imageUrl: "assets/images/questions.svg",
               optionName: "Frequently asked questions",
@@ -133,7 +142,14 @@ class SettingsView extends GetView<SettingsController> {
             },
             child: ListTile(
               leading: SvgPicture.asset("assets/images/logout.svg"),
-              title: Text("Logout"),
+              title: Text(
+                'Logout'.tr,
+                style: GoogleFonts.inter(
+                    textStyle: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.headingsgreycolor)),
+              ),
             ),
           )
         ],
