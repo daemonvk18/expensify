@@ -214,9 +214,14 @@ class ReportView extends GetView<ReportController> {
         //download report button
         Positioned(
             bottom: 50,
-            child: CustomFAB(
-              onTap: () {},
-              title: 'Download report',
+            child: GestureDetector(
+              onTap: () {
+                reportController.generateAndSavePDF();
+              },
+              child: CustomFAB(
+                onTap: () {},
+                title: 'Download report',
+              ),
             ))
       ],
     );

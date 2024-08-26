@@ -8,9 +8,9 @@ class AddcategoryController extends GetxController {
   final AddnewController addnewController = Get.find<AddnewController>();
 
   //get the data from the addnew controller
-  List<Map<String, String>> get combinedData => [
-        ...addnewController.categories,
-        ...addnewController.incomecategories,
+  List<Map<String, dynamic>> get combinedData => [
+        ...addnewController.expenseCategories,
+        ...addnewController.incomeCategories,
       ];
 
   //update the categoryname

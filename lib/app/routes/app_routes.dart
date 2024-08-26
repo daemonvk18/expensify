@@ -14,6 +14,7 @@ abstract class Routes {
   static const SEARCHOPTION = _Paths.SEARCHOPTION;
   static const ADDCATEGORY = _Paths.ADDCATEGORY;
   static const MANAGECATEGORY = _Paths.MANAGECATEGORY;
+  static const CLOUD_SERVICE = _Paths.CLOUD_SERVICE;
 }
 
 abstract class _Paths {
@@ -29,4 +30,5 @@ abstract class _Paths {
   static const SEARCHOPTION = '/searchoption';
   static const ADDCATEGORY = '/addcategory';
   static const MANAGECATEGORY = '/managecategory';
+  static const CLOUD_SERVICE = '/cloud-service';
 }

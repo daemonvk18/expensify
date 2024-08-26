@@ -30,20 +30,20 @@ class IncomeCategory extends StatelessWidget {
                     mainAxisSpacing: 5,
                     crossAxisSpacing: 12,
                   ),
-                  itemCount: controller.incomecategories.length,
+                  itemCount: controller.incomeCategories.length,
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () {
                         controller.updateIncomeCategory(
-                            controller.incomecategories[index]['name']!);
+                            controller.incomeCategories[index]['name']!);
                         Get.back();
                       },
                       child: Column(
                         children: [
                           SvgPicture.asset(
-                              controller.incomecategories[index]['icon']!),
+                              controller.incomeCategories[index]['icon']!),
                           const SizedBox(height: 8),
-                          Text(controller.incomecategories[index]['name']!),
+                          Text(controller.incomeCategories[index]['name']!),
                         ],
                       ),
                     );

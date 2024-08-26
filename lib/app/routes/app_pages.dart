@@ -6,6 +6,8 @@ import '../modules/addnew/bindings/addnew_binding.dart';
 import '../modules/addnew/views/addnew_view.dart';
 import '../modules/authentication/bindings/authentication_binding.dart';
 import '../modules/authentication/views/authentication_view.dart';
+import '../modules/cloudService/bindings/cloud_service_binding.dart';
+import '../modules/cloudService/views/cloud_service_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/managecategory/bindings/managecategory_binding.dart';
@@ -78,6 +80,11 @@ class AppPages {
       name: _Paths.MANAGECATEGORY,
       page: () => const ManagecategoryView(),
       binding: ManagecategoryBinding(),
+    ),
+    GetPage(
+      name: _Paths.CLOUD_SERVICE,
+      page: () => const CloudServiceView(),
+      binding: CloudServiceBinding(),
     ),
   ];
 }

@@ -33,20 +33,20 @@ class CategorySelector extends StatelessWidget {
                     mainAxisSpacing: 5,
                     crossAxisSpacing: 12,
                   ),
-                  itemCount: controller.categories.length,
+                  itemCount: controller.expenseCategories.length,
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () {
                         controller.updateCategory(
-                            controller.categories[index]['name']!);
+                            controller.expenseCategories[index]['name']!);
                         Get.back();
                       },
                       child: Column(
                         children: [
                           SvgPicture.asset(
-                              controller.categories[index]['icon']!),
+                              controller.expenseCategories[index]['icon']!),
                           const SizedBox(height: 8),
-                          Text(controller.categories[index]['name']!),
+                          Text(controller.expenseCategories[index]['name']!),
                         ],
                       ),
                     );

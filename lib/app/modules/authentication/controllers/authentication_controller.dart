@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expensify_app/app/modules/authentication/views/authentication_view.dart';
 import 'package:expensify_app/app/modules/navbar/views/navbar_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -33,6 +35,9 @@ class AuthenticationController extends GetxController {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   late Rx<User?> _user;
   final box = GetStorage();
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  // ignore: unused_field
+  final FirebaseStorage _storage = FirebaseStorage.instance;
 
   //getter method
   User? get user => _user.value;
@@ -72,9 +77,13 @@ class AuthenticationController extends GetxController {
       return;
     }
     try {
-      await _auth.createUserWithEmailAndPassword(
-          email: email, password: password);
+      UserCredential userCredential = await _auth
+          .createUserWithEmailAndPassword(email: email, password: password);
       Get.snackbar("Success", "Account Created Successfully");
+      //store the uid for duplicating the categories
+      String uid = userCredential.user!.uid;
+      // Clone default categories
+      await cloneDefaultCategoriesForUser(uid);
       //oncd the login is sucessful store that using get storage
       await box.write('email', email);
       //store the username
@@ -83,6 +92,31 @@ class AuthenticationController extends GetxController {
       Get.offAll(() => NavbarView());
     } catch (e) {
       Get.snackbar('Error', e.toString());
+    }
+  }
+
+  //cloning the defaultCategories
+  Future<void> cloneDefaultCategoriesForUser(String uid) async {
+    // Clone default expense categories
+    var defaultExpenseCategories =
+        await _firestore.collection('defaultExpenseCategories').get();
+    for (var doc in defaultExpenseCategories.docs) {
+      await _firestore
+          .collection('users')
+          .doc(uid)
+          .collection('expenseCategories')
+          .add(doc.data());
+    }
+
+    //clone default income categories
+    var defaultIncomeCategories =
+        await _firestore.collection('defaultIncomeCategories').get();
+    for (var doc in defaultIncomeCategories.docs) {
+      await _firestore
+          .collection('users')
+          .doc(uid)
+          .collection('incomeCategories')
+          .add(doc.data());
     }
   }
 
@@ -95,7 +129,15 @@ class AuthenticationController extends GetxController {
             await googleUser.authentication;
         final AuthCredential authCredential = GoogleAuthProvider.credential(
             idToken: googleAuth.idToken, accessToken: googleAuth.accessToken);
-        await _auth.signInWithCredential(authCredential);
+        UserCredential userCredential =
+            await _auth.signInWithCredential(authCredential);
+        String uid = userCredential.user!.uid;
+        //check if is siging in the first time
+        bool isFirstSignin = userCredential.additionalUserInfo!.isNewUser;
+        if (isFirstSignin) {
+          //clone the categories data
+          await cloneDefaultCategoriesForUser(uid);
+        }
         await box.write('email', googleUser.email);
         Get.offAll(() => NavbarView());
       }

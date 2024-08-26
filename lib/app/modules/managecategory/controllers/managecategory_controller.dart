@@ -3,8 +3,10 @@ import 'package:get/get.dart';
 
 class ManagecategoryController extends GetxController {
   final AddnewController addnewController = Get.find<AddnewController>();
-  List<Map<String, String>> get combinedList =>
-      [...addnewController.categories, ...addnewController.incomecategories];
+  List<Map<String, dynamic>> get combinedList => [
+        ...addnewController.expenseCategories,
+        ...addnewController.incomeCategories
+      ];
 
   final count = 0.obs;
   @override
