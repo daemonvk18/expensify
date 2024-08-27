@@ -3,8 +3,9 @@ import 'package:expensify_app/app/modules/addcategory/views/addcategory_view.dar
 import 'package:expensify_app/app/modules/addnew/controllers/addnew_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 
 class CategorySelector extends StatelessWidget {
   const CategorySelector({super.key});
@@ -26,31 +27,32 @@ class CategorySelector extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           //gridviewbuilder
-          Expanded(
-              child: GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    mainAxisSpacing: 5,
-                    crossAxisSpacing: 12,
-                  ),
-                  itemCount: controller.expenseCategories.length,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        controller.updateCategory(
-                            controller.expenseCategories[index]['name']!);
-                        Get.back();
-                      },
-                      child: Column(
-                        children: [
-                          SvgPicture.asset(
-                              controller.expenseCategories[index]['icon']!),
-                          const SizedBox(height: 8),
-                          Text(controller.expenseCategories[index]['name']!),
-                        ],
-                      ),
-                    );
-                  })),
+          Obx(() {
+            return Expanded(
+                child: GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      mainAxisSpacing: 5,
+                      crossAxisSpacing: 12,
+                    ),
+                    itemCount: controller.expenseCategories.length,
+                    itemBuilder: (context, index) {
+                      final category = controller.expenseCategories[index];
+                      return GestureDetector(
+                        onTap: () {
+                          controller.updateCategory(category['name']);
+                          Get.back();
+                        },
+                        child: Column(
+                          children: [
+                            SvgPicture.network(category['iconUrl']),
+                            const SizedBox(height: 8),
+                            Text(category['name']),
+                          ],
+                        ),
+                      );
+                    }));
+          }),
           GestureDetector(
             onTap: () {
               Get.to(() => AddcategoryView());

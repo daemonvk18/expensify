@@ -17,14 +17,35 @@ class SettingsController extends GetxController {
     firstLetter = firstLetter.substring(0, 1);
   }
 
-  FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   void signoutmethod() async {
-    await _googleSignIn.signOut();
-    await _auth.signOut();
-    await box.remove('email');
-    Get.offAll(() => AuthenticationView());
+    try {
+      // Attempt to sign out from Google
+      if (await _googleSignIn.isSignedIn()) {
+        await _googleSignIn.signOut();
+      }
+
+      // Sign out from Firebase
+      await _auth.signOut();
+
+      // Remove stored email
+      await box.remove('email');
+
+      // Navigate to the Authentication View
+      Get.offAll(() => AuthenticationView());
+
+      print('Sign out successful');
+    } catch (e) {
+      print('Failed to sign out: $e');
+      // Optionally, show a message to the user
+      Get.snackbar(
+        'Error',
+        'Failed to sign out. Please try again.',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
   }
 
   final count = 0.obs;

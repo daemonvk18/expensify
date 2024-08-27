@@ -1,7 +1,6 @@
 import 'package:expensify_app/app/data/values/appcolors.dart';
 import 'package:expensify_app/app/modules/addnew/controllers/addnew_controller.dart';
 import 'package:expensify_app/app/modules/managecategory/views/managecategory_view.dart';
-import 'package:expensify_app/app/modules/settings/widgets/languagepage.dart';
 import 'package:expensify_app/app/modules/settings/widgets/logoutdialogbox.dart';
 import 'package:expensify_app/app/modules/settings/widgets/settingsoptioncards.dart';
 import 'package:flutter/material.dart';
