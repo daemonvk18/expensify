@@ -37,9 +37,6 @@ class AddnewController extends GetxController {
             .toList());
       }
 
-      // Print fetched data
-      print("Expense Categories: $expenseCategories");
-
       // Load user's income categories
       QuerySnapshot userIncomeSnapshot = await _firestore
           .collection('users')
@@ -63,9 +60,6 @@ class AddnewController extends GetxController {
               .toList(),
         );
       }
-
-      // Print fetched data
-      print("Income Categories: $incomeCategories");
     } catch (e) {
       Get.snackbar('Error', 'Failed to load categories: $e');
     }

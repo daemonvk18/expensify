@@ -1,6 +1,7 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:expensify_app/app/data/values/appcolors.dart';
 import 'package:expensify_app/app/modules/addcategory/widgets/addnewcategory.dart';
+import 'package:expensify_app/app/modules/addcategory/widgets/checkexpenseorincome.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -40,8 +41,7 @@ class AddcategoryView extends GetView<AddcategoryController> {
                   //icon
                   Obx(
                     () => GestureDetector(
-                      onTap: () {
-                        addcategoryController.isTapped.value = true;
+                      onTap: () async {
                         showIconSelector(context, addcategoryController);
                       },
                       child: CircleAvatar(
@@ -52,9 +52,7 @@ class AddcategoryView extends GetView<AddcategoryController> {
                                 dashPattern: [8, 4],
                                 strokeWidth: 2,
                                 borderType: BorderType.Circle,
-                                color: addcategoryController.isTapped == true
-                                    ? AppColors.headingsgreycolor
-                                    : AppColors.fabcolor,
+                                color: AppColors.headingsgreycolor,
                                 child: Container(
                                   padding:
                                       EdgeInsets.all(screenSize.height * 0.015),
@@ -74,7 +72,7 @@ class AddcategoryView extends GetView<AddcategoryController> {
                                   ),
                                 ),
                               )
-                            : SvgPicture.asset(
+                            : SvgPicture.network(
                                 addcategoryController.selectedIcon.value),
                       ),
                     ),
@@ -120,21 +118,33 @@ class AddcategoryView extends GetView<AddcategoryController> {
                     padding: EdgeInsets.symmetric(
                         vertical: screenSize.height * 0.02,
                         horizontal: screenSize.height * 0.02),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: AppColors.fabcolor,
-                          borderRadius: BorderRadius.circular(54)),
-                      alignment: Alignment.center,
-                      padding: EdgeInsets.symmetric(
-                          vertical: screenSize.height * 0.02),
-                      width: screenSize.width,
-                      child: Text(
-                        'Add new Category',
-                        style: GoogleFonts.inter(
-                            textStyle: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                color: AppColors.lightthemeprimaryColor)),
+                    child: GestureDetector(
+                      onTap: () async {
+                        //first check whether i want to add the category to the expenses or the income
+                        await showDialog(
+                            context: context,
+                            builder: (context) => CheckExpenseOrIncome());
+                        final categoryName = controller.categoryName.trim();
+                        final selectedUrl = controller.selectedIcon.value;
+                        controller.addnewCategory(categoryName, selectedUrl);
+                        Get.back();
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: AppColors.fabcolor,
+                            borderRadius: BorderRadius.circular(54)),
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.symmetric(
+                            vertical: screenSize.height * 0.02),
+                        width: screenSize.width,
+                        child: Text(
+                          'Add new Category',
+                          style: GoogleFonts.inter(
+                              textStyle: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: AppColors.lightthemeprimaryColor)),
+                        ),
                       ),
                     ),
                   ),
@@ -149,6 +159,9 @@ class AddcategoryView extends GetView<AddcategoryController> {
         context: context,
         builder: (context) => AddCategory(
               controller: controller,
+              onLogoSelected: (logoUrl) {
+                controller.selectedIcon.value = logoUrl;
+              },
             ));
   }
 }
