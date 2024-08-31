@@ -12,7 +12,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await GetStorage.init();
-  //injecting the homecontroller
   Get.put(HomeController());
   Get.put(CloudServiceController());
   runApp(DevicePreview(enabled: !kReleaseMode, builder: (context) => MyApp()));

@@ -112,8 +112,8 @@ class AddnewView extends GetView<AddnewController> {
               ),
               //add amount option
               TextFormField(
-                controller:
-                    TextEditingController(text: addnewController.amount.value),
+                controller: TextEditingController(
+                    text: addnewController.amount.value.toString()),
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
@@ -158,6 +158,9 @@ class AddnewView extends GetView<AddnewController> {
                             fontWeight: FontWeight.w500,
                             color: AppColors.fabcolor)),
                     labelText: 'Description (Optional)'),
+                onChanged: (value) {
+                  addnewController.title.value = value;
+                },
               ),
               Spacer(),
               //add the expense button
@@ -168,21 +171,33 @@ class AddnewView extends GetView<AddnewController> {
                     child: Padding(
                       padding: EdgeInsets.symmetric(
                           horizontal: screenSize.height * 0.02),
-                      child: Container(
-                        alignment: Alignment.center,
-                        width: screenSize.width,
-                        decoration: BoxDecoration(
-                            color: AppColors.fabcolor,
-                            borderRadius: BorderRadius.circular(54)),
-                        padding: EdgeInsets.symmetric(
-                            vertical: screenSize.height * 0.02),
-                        child: Text(
-                          "Add expense",
-                          style: GoogleFonts.inter(
-                              textStyle: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColors.lightthemeprimaryColor)),
+                      child: GestureDetector(
+                        onTap: () {
+                          controller.addTransaction(
+                              addnewController.selectedType.value,
+                              addnewController.categoryName.value,
+                              addnewController.amount.value,
+                              addnewController.title.value);
+                          Get.back();
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          width: screenSize.width,
+                          decoration: BoxDecoration(
+                              color: AppColors.fabcolor,
+                              borderRadius: BorderRadius.circular(54)),
+                          padding: EdgeInsets.symmetric(
+                              vertical: screenSize.height * 0.02),
+                          child: Text(
+                            controller.selectedType.value == 'Expense'
+                                ? "Add expense"
+                                : "Add income",
+                            style: GoogleFonts.inter(
+                                textStyle: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColors.lightthemeprimaryColor)),
+                          ),
                         ),
                       ),
                     ),

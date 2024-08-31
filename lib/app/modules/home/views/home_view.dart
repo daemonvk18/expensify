@@ -1,12 +1,12 @@
 import 'package:expensify_app/app/data/values/appcolors.dart';
 import 'package:expensify_app/app/modules/addnew/views/addnew_view.dart';
 import 'package:expensify_app/app/modules/home/widgets/custom_fab.dart';
-import 'package:expensify_app/app/modules/home/widgets/expensecard.dart';
 import 'package:expensify_app/app/modules/searchoption/views/searchoption_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../controllers/home_controller.dart';
@@ -109,6 +109,7 @@ class HomeView extends GetView<HomeController> {
                             GestureDetector(
                                 onTap: () {
                                   _selectDate(context, homeController);
+                                  //and now call the loadmonthtransactions here
                                 },
                                 child: SvgPicture.asset(
                                     "assets/images/datepicker.svg")),
@@ -151,149 +152,162 @@ class HomeView extends GetView<HomeController> {
                         borderRadius: BorderRadius.circular(12),
                         border:
                             Border.all(color: Colors.grey.shade400, width: 2)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        //expenses
-                        Column(
-                          children: [
-                            //expenses logo
-                            SvgPicture.asset('assets/images/expenses.svg'),
-                            //expenses amount text
-                            Text(
-                              "-\u20B9 ${homeController.expenses}",
-                              style: GoogleFonts.inter(
-                                  textStyle: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w500,
-                                      color: AppColors.redcolor)),
-                            ),
-                            //expense text
-                            Text(
-                              'Expenses',
-                              style: TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w500,
-                                  color: AppColors.textmediumGreyColor),
-                            )
-                          ],
-                        ),
-                        //balance
-                        Column(
-                          children: [
-                            //expenses logo
-                            SvgPicture.asset('assets/images/balance.svg'),
-                            //expenses amount text
-                            Text(
-                              "\u20B9 ${homeController.balance}",
-                              style: GoogleFonts.inter(
-                                  textStyle: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w500,
-                                      color: AppColors.balancegreenColor)),
-                            ),
-                            //expense text
-                            Text(
-                              'Balance',
-                              style: TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w500,
-                                  color: AppColors.textmediumGreyColor),
-                            )
-                          ],
-                        ),
-                        //income
-                        Column(
-                          children: [
-                            //expenses logo
-                            SvgPicture.asset('assets/images/income_icon.svg'),
-                            //expenses amount text
-                            Text(
-                              "\u20B9 ${homeController.income}",
-                              style: GoogleFonts.inter(
-                                  textStyle: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w500,
-                                      color: AppColors.logocolor)),
-                            ),
-                            //expense text
-                            Text(
-                              'Income',
-                              style: TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w500,
-                                  color: AppColors.textmediumGreyColor),
-                            )
-                          ],
-                        ),
-                      ],
-                    ),
+                    child: Obx(() {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          //expenses
+                          Column(
+                            children: [
+                              //expenses logo
+                              SvgPicture.asset('assets/images/expenses.svg'),
+                              //expenses amount text
+                              Text(
+                                "-\u20B9 ${homeController.totalExpense}",
+                                style: GoogleFonts.inter(
+                                    textStyle: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500,
+                                        color: AppColors.redcolor)),
+                              ),
+                              //expense text
+                              Text(
+                                'Expenses',
+                                style: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColors.textmediumGreyColor),
+                              )
+                            ],
+                          ),
+                          //balance
+                          Column(
+                            children: [
+                              //expenses logo
+                              SvgPicture.asset('assets/images/balance.svg'),
+                              //expenses amount text
+                              Text(
+                                "\u20B9 ${homeController.balanceAmount}",
+                                style: GoogleFonts.inter(
+                                    textStyle: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500,
+                                        color: AppColors.balancegreenColor)),
+                              ),
+                              //expense text
+                              Text(
+                                'Balance',
+                                style: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColors.textmediumGreyColor),
+                              )
+                            ],
+                          ),
+                          //income
+                          Column(
+                            children: [
+                              //expenses logo
+                              SvgPicture.asset('assets/images/income_icon.svg'),
+                              //expenses amount text
+                              Text(
+                                "\u20B9 ${homeController.totalIncome}",
+                                style: GoogleFonts.inter(
+                                    textStyle: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500,
+                                        color: AppColors.logocolor)),
+                              ),
+                              //expense text
+                              Text(
+                                'Income',
+                                style: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColors.textmediumGreyColor),
+                              )
+                            ],
+                          ),
+                        ],
+                      );
+                    }),
                   ),
                 ),
                 SizedBox(
                   height: screenSize.height * 0.02,
                 ),
-                //tody exoenses with the respective category icons
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: screenSize.height * 0.02,
-                  ),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        border:
-                            Border.all(color: Colors.grey.shade400, width: 2)),
-                    padding: EdgeInsets.symmetric(
-                        horizontal: screenSize.height * 0.02,
-                        vertical: screenSize.height * 0.02),
-                    height: screenSize.height * 0.3,
-                    child: ListView.builder(
-                        padding: EdgeInsets.zero,
-                        //physics: NeverScrollableScrollPhysics(),
-                        itemCount: controller.todaydetailsdata.length,
-                        itemBuilder: (context, index) {
-                          final expenses = controller.todaydetailsdata;
-                          return ExpenseCard(
-                            imageUrl: expenses[index].expenseCategorylogo,
-                            title: expenses[index].expenseTitle,
-                            category: expenses[index].expenseCategory,
-                            amount: expenses[index].amount,
-                          );
-                        }),
-                  ),
-                ),
-                SizedBox(
-                  height: screenSize.height * 0.02,
-                ),
-                //yesterday expenses container
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: screenSize.height * 0.02,
-                  ),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        border:
-                            Border.all(color: Colors.grey.shade400, width: 2)),
-                    padding: EdgeInsets.symmetric(
-                        horizontal: screenSize.height * 0.02,
-                        vertical: screenSize.height * 0.02),
-                    height: screenSize.height * 0.3,
-                    child: ListView.builder(
-                        padding: EdgeInsets.zero,
-                        //physics: NeverScrollableScrollPhysics(),
-                        itemCount: controller.yesterdaydetailsdata.length,
-                        itemBuilder: (context, index) {
-                          final expenses = controller.yesterdaydetailsdata;
-                          return ExpenseCard(
-                            imageUrl: expenses[index].expenseCategorylogo,
-                            title: expenses[index].expenseTitle,
-                            category: expenses[index].expenseCategory,
-                            amount: expenses[index].amount,
-                          );
-                        }),
-                  ),
-                ),
+                Obx(() {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildTransactions(
+                          "T O D A Y", homeController.todayTransactions),
+                      _buildTransactions("Y E S T E R D A Y",
+                          homeController.yesterdayTransactions),
+                    ],
+                  );
+                })
+                //tody expenses with the respective category icons
+                // Padding(
+                //   padding: EdgeInsets.symmetric(
+                //     horizontal: screenSize.height * 0.02,
+                //   ),
+                //   child: Container(
+                //     decoration: BoxDecoration(
+                //         borderRadius: BorderRadius.circular(12),
+                //         border:
+                //             Border.all(color: Colors.grey.shade400, width: 2)),
+                //     padding: EdgeInsets.symmetric(
+                //         horizontal: screenSize.height * 0.02,
+                //         vertical: screenSize.height * 0.02),
+                //     height: screenSize.height * 0.3,
+                //     child: ListView.builder(
+                //         padding: EdgeInsets.zero,
+                //         //physics: NeverScrollableScrollPhysics(),
+                //         itemCount: controller.todaydetailsdata.length,
+                //         itemBuilder: (context, index) {
+                //           final expenses = controller.todaydetailsdata;
+                //           return ExpenseCard(
+                //             imageUrl: expenses[index].expenseCategorylogo,
+                //             title: expenses[index].expenseTitle,
+                //             category: expenses[index].expenseCategory,
+                //             amount: expenses[index].amount,
+                //           );
+                //         }),
+                //   ),
+                // ),
+                // SizedBox(
+                //   height: screenSize.height * 0.02,
+                // ),
+                // //yesterday expenses container
+                // Padding(
+                //   padding: EdgeInsets.symmetric(
+                //     horizontal: screenSize.height * 0.02,
+                //   ),
+                //   child: Container(
+                //     decoration: BoxDecoration(
+                //         borderRadius: BorderRadius.circular(12),
+                //         border:
+                //             Border.all(color: Colors.grey.shade400, width: 2)),
+                //     padding: EdgeInsets.symmetric(
+                //         horizontal: screenSize.height * 0.02,
+                //         vertical: screenSize.height * 0.02),
+                //     height: screenSize.height * 0.3,
+                //     child: ListView.builder(
+                //         padding: EdgeInsets.zero,
+                //         //physics: NeverScrollableScrollPhysics(),
+                //         itemCount: controller.yesterdaydetailsdata.length,
+                //         itemBuilder: (context, index) {
+                //           final expenses = controller.yesterdaydetailsdata;
+                //           return ExpenseCard(
+                //             imageUrl: expenses[index].expenseCategorylogo,
+                //             title: expenses[index].expenseTitle,
+                //             category: expenses[index].expenseCategory,
+                //             amount: expenses[index].amount,
+                //           );
+                //         }),
+                //   ),
+                // ),
               ],
             ),
           )),
@@ -334,5 +348,80 @@ class HomeView extends GetView<HomeController> {
     if (pickedDate != null && pickedDate != homeController.selectedDate.value) {
       homeController.updateDate(pickedDate);
     }
+  }
+
+  // Widget to build a section for transactions
+  Widget _buildTransactions(
+      String title, List<Map<String, dynamic>> transactions) {
+    if (transactions.isEmpty) {
+      return SizedBox.shrink();
+    }
+
+    double totalAmount = transactions.fold(0.0, (sum, item) {
+      // Convert amount to double safely
+      double amount = double.tryParse(item['amount']) ?? 0.0;
+      return sum + amount;
+    });
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16.0),
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: 20,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(title,
+                    style:
+                        TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                Text(
+                  "- ₹${totalAmount.toStringAsFixed(2)}",
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Obx(
+          () => ListView.builder(
+            physics: NeverScrollableScrollPhysics(), // Prevents inner scroll
+            shrinkWrap: true,
+            itemCount: transactions.length,
+            itemBuilder: (context, index) {
+              final transaction = transactions[index];
+              return _buildTransactionTile(transaction);
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  // Widget to build a transaction tile
+  Widget _buildTransactionTile(Map<String, dynamic> transaction) {
+    return Card(
+      elevation: 0,
+      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+      child: ListTile(
+        leading: SvgPicture.network(transaction['iconUrl']),
+        title: Text(transaction['title'] ?? "No Title",
+            style: TextStyle(fontWeight: FontWeight.bold)),
+        subtitle: Text(transaction['category'] ?? "No Category"),
+        trailing: Text(
+          "- ₹${transaction['amount']}",
+          style: TextStyle(
+            color: transaction['isExpense'] == true ? Colors.red : Colors.green,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    );
   }
 }
