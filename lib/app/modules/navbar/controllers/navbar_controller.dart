@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 
 class NavbarController extends GetxController {
   //current index(on which page does the nav bar lie)
-  var currentIndex = 0.obs;
+  var currentIndex = 1.obs;
 
   //toggleing the index of the nav bar
   void toggleIndexofNavBar(int index) {

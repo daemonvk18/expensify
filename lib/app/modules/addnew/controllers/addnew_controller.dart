@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expensify_app/app/modules/home/controllers/home_controller.dart';
+import 'package:expensify_app/app/modules/report/controllers/report_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -106,6 +107,7 @@ class AddnewController extends GetxController {
       await collectionRef.add(newTransaction);
       print('Added transaction to the existing $collectionPath collection.');
       Get.find<HomeController>().loadTodayAndYesterdaysTransactions();
+      Get.find<ReportController>().loadTodayExpenses();
     }
   }
 

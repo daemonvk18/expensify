@@ -143,10 +143,10 @@ class HomeView extends GetView<HomeController> {
                 //container(expenses,balance,income)
                 Padding(
                   padding: EdgeInsets.symmetric(
-                      horizontal: screenSize.height * 0.02),
+                      horizontal: screenSize.height * 0.01),
                   child: Container(
                     padding: EdgeInsets.symmetric(
-                        horizontal: screenSize.height * 0.06,
+                        horizontal: screenSize.height * 0.01,
                         vertical: screenSize.height * 0.025),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
@@ -154,7 +154,7 @@ class HomeView extends GetView<HomeController> {
                             Border.all(color: Colors.grey.shade400, width: 2)),
                     child: Obx(() {
                       return Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           //expenses
                           Column(

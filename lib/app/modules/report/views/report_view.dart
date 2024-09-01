@@ -1,7 +1,6 @@
 import 'package:expensify_app/app/data/values/appcolors.dart';
 import 'package:expensify_app/app/modules/home/widgets/custom_fab.dart';
 import 'package:expensify_app/app/modules/report/widgets/detailslisttile.dart';
-import 'package:expensify_app/app/modules/report/widgets/detailsmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -195,18 +194,12 @@ class ReportView extends GetView<ReportController> {
                 //       }),
                 // )
                 //lets try for loop(inside a column)
-                Column(
-                  children: [
-                    //use for loop
-                    for (int i = 0; i < details.length; i++)
-                      DetailsListTile(
-                          iconUrl: details[i].iconUrl,
-                          expensetitle: details[i].expenseTitle,
-                          transactions: details[i].totalTransactions,
-                          expenseamount: details[i].totalAmount,
-                          expensepercent: details[i].percent)
-                  ],
-                )
+                for (int i = 0; i < reportController.todayExpenses.length; i++)
+                  DetailsListTile(
+                      iconUrl: reportController.todayExpenses[i]['iconUrl'],
+                      expensetitle: reportController.todayExpenses[i]['title'],
+                      expenseamount: reportController.todayExpenses[i]
+                          ['amount'])
               ],
             ),
           ),

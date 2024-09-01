@@ -5,23 +5,18 @@ import 'package:get/get.dart';
 
 class ManagecategoryController extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  //final FirebaseAuth _auth = FirebaseAuth.instance;
 
   final RxList<CategoryModel> combinedCategories = <CategoryModel>[].obs;
   final RxList<CategoryModel> expenseCategories = <CategoryModel>[].obs;
   final RxList<CategoryModel> incomeCategories = RxList<CategoryModel>();
-  String? _userId;
+  String _userId = FirebaseAuth.instance.currentUser!.uid;
 
   final count = 0.obs;
   @override
-  void onInit() async {
+  void onInit() {
     super.onInit();
-    _userId = await _auth.currentUser?.uid;
-    if (_userId != null) {
-      loadUserCategories();
-    } else {
-      Get.snackbar("Error", "User not logged in");
-    }
+    loadUserCategories();
   }
 
   Future<void> loadUserCategories() async {
@@ -74,10 +69,9 @@ class ManagecategoryController extends GetxController {
           .firstWhereOrNull((category) => category.id == categoryId);
       if (categoryToUpdate != null) {
         categoryToUpdate.name = newName;
-        combinedCategories.refresh();
       }
-
       Get.snackbar("Success", "Category name updated successfully");
+      loadUserCategories();
     } catch (e) {
       Get.snackbar("Error", "Failed to update category name: $e");
     }

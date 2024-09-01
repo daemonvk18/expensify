@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
@@ -9,6 +11,7 @@ class ReportController extends GetxController {
   //the varaiable to store the date picked
   var selectedDate = DateTime.now().obs;
 
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   //method to update the selected date
   void updateDate(DateTime date) {
     selectedDate.value = date;
@@ -124,10 +127,36 @@ class ReportController extends GetxController {
     }
   }
 
+  //loading the data from the firestore
+  var todayExpenses = <Map<String, dynamic>>[];
+  String userId = FirebaseAuth.instance.currentUser!.uid;
+
+  //load the todays expenses list
+  Future<void> loadTodayExpenses() async {
+    //get the data
+    try {
+      String todaysDate = DateFormat('yyyyMMdd').format(DateTime.now());
+      QuerySnapshot snapshot = await _firestore
+          .collection('users')
+          .doc(userId)
+          .collection('Expense')
+          .where('data', isEqualTo: todaysDate)
+          .get();
+
+      //adding the fetched details
+      for (var doc in snapshot.docs) {
+        todayExpenses.add(doc.data() as Map<String, dynamic>);
+      }
+    } catch (e) {
+      print("Error loading today's expenses: $e");
+    }
+  }
+
   final count = 0.obs;
   @override
   void onInit() {
     super.onInit();
+    loadTodayExpenses();
   }
 
   @override

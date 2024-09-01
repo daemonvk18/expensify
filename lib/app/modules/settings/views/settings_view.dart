@@ -109,7 +109,7 @@ class SettingsView extends GetView<SettingsController> {
           SettingOptions(
               imageUrl: "assets/images/manage_category.svg",
               optionName: 'Manage Categories',
-              onTap: () {
+              onTap: () async {
                 Get.to(() => ManagecategoryView());
               }),
           SettingOptions(

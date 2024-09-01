@@ -36,10 +36,12 @@ class ManagecategoryView extends GetView<ManagecategoryController> {
               centerTitle: false,
             ),
             body: SingleChildScrollView(
-              child: Column(
-                  children: controller.combinedCategories.map((category) {
-                return _buildTile(category);
-              }).toList()),
+              child: Obx(
+                () => Column(
+                    children: controller.combinedCategories.map((category) {
+                  return _buildTile(category);
+                }).toList()),
+              ),
             )),
         //add new category
         Padding(
