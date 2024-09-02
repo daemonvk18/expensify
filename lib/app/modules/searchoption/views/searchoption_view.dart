@@ -25,7 +25,7 @@ class SearchoptionView extends GetView<SearchoptionController> {
               decoration: InputDecoration(
                   border: InputBorder.none,
                   hintText: "Search for notes,category or label"),
-              onChanged: searchoptionController.updateSeachText,
+              onChanged: searchoptionController.updateSearchText,
             )),
         body: Column(
           children: [
@@ -53,16 +53,16 @@ class SearchoptionView extends GetView<SearchoptionController> {
             //show the filtered data here
             Expanded(child: Obx(
               () {
-                final expenses = searchoptionController.filteredExpenses;
                 return ListView.builder(
-                    itemCount: expenses.length,
+                    itemCount: controller.filteredexpenses.length,
                     itemBuilder: (context, index) {
-                      final expense = expenses[index];
+                      final expense =
+                          searchoptionController.filteredexpenses[index];
                       return ListTile(
-                        leading: SvgPicture.asset(expense.expenseCategorylogo),
-                        title: Text(expense.expenseTitle),
-                        subtitle: Text(expense.expenseCategory),
-                        trailing: Text('- ' + '\u20B9${expense.amount}'),
+                        leading: SvgPicture.network(expense['iconUrl']),
+                        title: Text(expense['title']),
+                        subtitle: Text(expense['category']),
+                        trailing: Text('- ' + '\u20B9${expense['amount']}'),
                       );
                     });
               },

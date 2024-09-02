@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expensify_app/app/modules/home/controllers/home_controller.dart';
 import 'package:expensify_app/app/modules/home/models/expensecardmodel.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
 class SearchoptionController extends GetxController {
@@ -32,10 +34,10 @@ class SearchoptionController extends GetxController {
     }).toList();
   }
 
-  //update the searchText
-  void updateSeachText(String text) {
-    searchText.value = text;
-  }
+  // //update the searchText
+  // void updateSeachText(String text) {
+  //   searchText.value = text;
+  // }
 
   //update the selected category
   void updateSelectedCategory(String category) {
@@ -60,9 +62,82 @@ class SearchoptionController extends GetxController {
     ['Interest', 'assets/images/Institute.svg'],
     ['Savings', 'assets/images/Savings.svg']
   ];
+
+  RxList<Map<String, dynamic>> allExpenses =
+      <Map<String, dynamic>>[].obs; // All expenses
+  RxList<Map<String, dynamic>> filteredexpenses =
+      <Map<String, dynamic>>[].obs; // Filtered expenses
+  RxList<String> selectedcategories =
+      <String>[].obs; // Currently selected category
+  RxString searchtext = ''.obs; // Search text from TextField
+  String userid = FirebaseAuth.instance.currentUser!.uid;
+
+  Future<void> loadUsersExpenses() async {
+    try {
+      // Fetch expenses from Firestore (this is just an example; update with your Firestore structure)
+      final userExpensesSnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userid) // Replace 'userId' with the appropriate user ID
+          .collection('Expense')
+          .get();
+
+      allExpenses.clear(); // Clear previous data
+
+      for (var doc in userExpensesSnapshot.docs) {
+        allExpenses.add(doc.data() as Map<String, dynamic>);
+      }
+
+      filterExpenses(); // Filter expenses after loading them
+    } catch (e) {
+      print('Error loading user expenses: $e');
+    }
+  }
+
+  // Method to filter expenses based on selected categories and search text
+  void filterExpenses() {
+    if (selectedcategories.isEmpty && searchText.isEmpty) {
+      filteredExpenses.clear();
+      return; // If no filter, show no expenses
+    } else {
+      filteredexpenses.assignAll(allExpenses.where((expense) {
+        final matchesCategory = selectedcategories.isEmpty ||
+            selectedcategories.contains(expense['category']);
+        final matchesText = searchtext.isEmpty ||
+            expense['title']
+                .toString()
+                .toLowerCase()
+                .contains(searchText.toLowerCase()) ||
+            expense['category']
+                .toString()
+                .toLowerCase()
+                .contains(searchText.toLowerCase());
+
+        return matchesCategory &&
+            matchesText; // Show only expenses that match both filters
+      }).toList());
+    }
+  }
+
+  // Method to add or remove a selected category
+  void toggleCategory(String category) {
+    if (selectedcategories.contains(category)) {
+      selectedcategories.remove(category);
+    } else {
+      selectedcategories.add(category);
+    }
+    filterExpenses(); // Apply filter when category is toggled
+  }
+
+  // Method to update the search text
+  void updateSearchText(String text) {
+    searchtext.value = text;
+    filterExpenses(); // Apply filter when search text is updated
+  }
+
   @override
   void onInit() {
     super.onInit();
+    loadUsersExpenses();
   }
 
   @override

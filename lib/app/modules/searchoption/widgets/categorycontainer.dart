@@ -20,10 +20,9 @@ class CategoryContainer extends StatelessWidget {
     final ScreenSize = MediaQuery.of(context).size;
     return Obx(() {
       final isSelected =
-          searchoptionController.selectedCategory.contains(categoryname);
+          searchoptionController.selectedcategories.contains(categoryname);
       return GestureDetector(
-          onTap: () =>
-              searchoptionController.updateSelectedCategory(categoryname),
+          onTap: () => searchoptionController.toggleCategory(categoryname),
           child: Padding(
             padding: EdgeInsets.symmetric(
                 horizontal: ScreenSize.height * 0.01,

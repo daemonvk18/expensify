@@ -106,8 +106,8 @@ class AddnewController extends GetxController {
       };
       await collectionRef.add(newTransaction);
       print('Added transaction to the existing $collectionPath collection.');
-      Get.find<HomeController>().loadTodayAndYesterdaysTransactions();
-      Get.find<ReportController>().loadTodayExpenses();
+      await Get.find<HomeController>().loadTodayAndYesterdaysTransactions();
+      await Get.find<ReportController>().loadTodayExpenses();
     }
   }
 
