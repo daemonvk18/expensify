@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:expensify_app/app/modules/home/controllers/home_controller.dart';
-import 'package:expensify_app/app/modules/home/models/expensecardmodel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
@@ -13,26 +12,26 @@ class SearchoptionController extends GetxController {
   //accessing the home controller to get the expenses data here
   final HomeController homeController = Get.find<HomeController>();
   //get the data and return the filtered data
-  List<ExpenseDetails> get filteredExpenses {
-    //if the searchtext ans the selectedcategory is empty show nothing
-    if (searchText.isEmpty && selectedCategory.isEmpty) {
-      return [];
-    }
+  // List<ExpenseDetails> get filteredExpenses {
+  //   //if the searchtext ans the selectedcategory is empty show nothing
+  //   if (searchText.isEmpty && selectedCategory.isEmpty) {
+  //     return [];
+  //   }
 
-    List<ExpenseDetails> allExpenses = [
-      ...homeController.todaydetailsdata,
-      ...homeController.yesterdaydetailsdata
-    ];
+  //   // List<ExpenseDetails> allExpenses = [
+  //   //   ...homeController.todaydetailsdata,
+  //   //   ...homeController.yesterdaydetailsdata
+  //   // ];
 
-    return allExpenses.where((expenses) {
-      final matchesSearchText = expenses.expenseTitle
-          .toLowerCase()
-          .contains(searchText.value.toLowerCase());
-      final matchesCategory = selectedCategory.isEmpty ||
-          selectedCategory.contains(expenses.expenseCategory);
-      return matchesSearchText && matchesCategory;
-    }).toList();
-  }
+  //   return allExpenses.where((expenses) {
+  //     final matchesSearchText = expenses.expenseTitle
+  //         .toLowerCase()
+  //         .contains(searchText.value.toLowerCase());
+  //     final matchesCategory = selectedCategory.isEmpty ||
+  //         selectedCategory.contains(expenses.expenseCategory);
+  //     return matchesSearchText && matchesCategory;
+  //   }).toList();
+  // }
 
   // //update the searchText
   // void updateSeachText(String text) {
@@ -96,7 +95,7 @@ class SearchoptionController extends GetxController {
   // Method to filter expenses based on selected categories and search text
   void filterExpenses() {
     if (selectedcategories.isEmpty && searchText.isEmpty) {
-      filteredExpenses.clear();
+      filteredexpenses.clear();
       return; // If no filter, show no expenses
     } else {
       filteredexpenses.assignAll(allExpenses.where((expense) {

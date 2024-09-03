@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:expensify_app/app/modules/home/models/expensecardmodel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -20,10 +19,34 @@ class HomeController extends GetxController {
   //the varaiable to store the date picked
   var selectedDate = DateTime.now().obs;
   final box = GetStorage();
+  var dateSelected = false.obs;
 
   //method to update the selected date
   void updateDate(DateTime date) {
     selectedDate.value = date;
+  }
+
+  List<String> monthNames = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
+  ];
+
+  String getMonth() {
+    DateTime date =
+        DateTime.parse(DateFormat('yyyyMMdd').format(selectedDate.value));
+    int month = date.month;
+    String monthName = monthNames[month - 1];
+    return monthName;
   }
 
   String firstLetter = '';
@@ -36,56 +59,6 @@ class HomeController extends GetxController {
   //updating the dateformat to the required condition(may,2021)
   String get formattedDate =>
       DateFormat('MMMM, yyyy').format(selectedDate.value);
-
-  final List<ExpenseDetails> todaydetailsdata = [
-    ExpenseDetails(
-        expenseCategorylogo: "",
-        amount: '1125',
-        expenseTitle: "T O D A Y",
-        expenseCategory: ''),
-    ExpenseDetails(
-        expenseCategorylogo: "assets/images/Groceries.svg",
-        amount: '500',
-        expenseTitle: "Eggs & Vegetables",
-        expenseCategory: 'Groceries'),
-    ExpenseDetails(
-        expenseCategorylogo: "assets/images/Health.svg",
-        amount: '352',
-        expenseTitle: "Health",
-        expenseCategory: ''),
-    ExpenseDetails(
-        expenseCategorylogo: "assets/images/Cafe.svg",
-        amount: '352',
-        expenseTitle: "Hangouts with Rohan",
-        expenseCategory: 'Bar & Cafe'),
-  ];
-
-  final List<ExpenseDetails> yesterdaydetailsdata = [
-    ExpenseDetails(
-        expenseCategorylogo: "",
-        amount: '1125',
-        expenseTitle: "Y E S T E R D A Y",
-        expenseCategory: ''),
-    ExpenseDetails(
-        expenseCategorylogo: "assets/images/Maintenance.svg",
-        amount: '500',
-        expenseTitle: "Eggs & Veggies",
-        expenseCategory: 'Groceries'),
-    ExpenseDetails(
-        expenseCategorylogo: "assets/images/Health.svg",
-        amount: '352',
-        expenseTitle: "Health",
-        expenseCategory: ''),
-    ExpenseDetails(
-        expenseCategorylogo: "assets/images/Laundry.svg",
-        amount: '352',
-        expenseTitle: "Hangouts with Upendra",
-        expenseCategory: 'Bar & Cafe'),
-  ];
-
-  //getter function to get the whole expenses data
-  List<ExpenseDetails> get allExpenses =>
-      todaydetailsdata + yesterdaydetailsdata;
 
   // Method to load today's and yesterday's transactions (both expenses and incomes)
   Future<void> loadTodayAndYesterdaysTransactions() async {
@@ -152,7 +125,6 @@ class HomeController extends GetxController {
       // Update the lists and totals
       todayTransactions.value = todayList;
       yesterdayTransactions.value = yesterdayList;
-      print(todayTransactions);
 
       totalExpense.value = expenseSum;
       totalIncome.value = incomeSum;
@@ -163,22 +135,9 @@ class HomeController extends GetxController {
     }
   }
 
-  // // Helper function to parse 'yyyymmdd' formatted date strings to DateTime
-  // DateTime _parseDate(String yyyymmdd) {
-  //   int year = int.parse(yyyymmdd.substring(0, 4));
-  //   int month = int.parse(yyyymmdd.substring(4, 6));
-  //   int day = int.parse(yyyymmdd.substring(6, 8));
-  //   return DateTime(year, month, day);
-  // }
-
-  // bool _isSameDate(DateTime date1, DateTime date2) {
-  //   return date1.year == date2.year &&
-  //       date1.month == date2.month &&
-  //       date1.day == date2.day;
-  // }
-
   //load a monthdata when selected a particular date
   Future<void> loadamonthTransactions(String date) async {
+    print(date.substring(0, 6));
     try {
       List<Map<String, dynamic>> transactions = [];
       // Fetch expenses for the selected month
@@ -190,7 +149,7 @@ class HomeController extends GetxController {
 
       for (var doc in expenseSnapshot.docs) {
         String expenseDate = doc['data'];
-        if (expenseDate == date.substring(0, 6)) {
+        if (expenseDate.substring(0, 6) == date.substring(0, 6)) {
           transactions.add(doc.data() as Map<String, dynamic>);
         }
       }

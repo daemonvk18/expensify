@@ -42,23 +42,23 @@ class ReportController extends GetxController {
 
   // Sample data (replace with your actual data)
 
-  final RxList<Map<String, dynamic>> expenses = <Map<String, dynamic>>[
-    {'category': 'Transportation', 'amount': 5300, 'transactions': 36},
-    {'category': 'Health', 'amount': 3100, 'transactions': 10},
-    {'category': 'Personal', 'amount': 2320, 'transactions': 12},
-    {'category': 'Gifts', 'amount': 1440, 'transactions': 12},
-    {'category': 'Electronics', 'amount': 800, 'transactions': 12},
-    {'category': 'Caffe & Bar', 'amount': 240, 'transactions': 12},
-  ].obs;
+  // final RxList<Map<String, dynamic>> expenses = <Map<String, dynamic>>[
+  //   {'category': 'Transportation', 'amount': 5300, 'transactions': 36},
+  //   {'category': 'Health', 'amount': 3100, 'transactions': 10},
+  //   {'category': 'Personal', 'amount': 2320, 'transactions': 12},
+  //   {'category': 'Gifts', 'amount': 1440, 'transactions': 12},
+  //   {'category': 'Electronics', 'amount': 800, 'transactions': 12},
+  //   {'category': 'Caffe & Bar', 'amount': 240, 'transactions': 12},
+  // ].obs;
 
   Future<void> generateAndSavePDF() async {
     final pdf = pw.Document();
 
     final int totalAmount =
-        expenses.fold(0, (int sum, item) => sum + (item['amount'] as int));
+        todayExpenses.fold(0, (int sum, item) => sum + (item['amount'] as int));
 
     String summaryText = "Summary of Expenses:\n\n";
-    for (var expense in expenses) {
+    for (var expense in todayExpenses) {
       summaryText += "- ${expense['category']}: ₹${expense['amount']}\n";
     }
     summaryText += "\nTotal Amount Spent: ₹$totalAmount";
@@ -78,9 +78,9 @@ class ReportController extends GetxController {
               pw.SizedBox(height: 20),
               pw.Text('Detailed Expenses:', style: pw.TextStyle(fontSize: 18)),
               pw.ListView.builder(
-                itemCount: expenses.length,
+                itemCount: todayExpenses.length,
                 itemBuilder: (context, index) {
-                  final expense = expenses[index];
+                  final expense = todayExpenses[index];
                   return pw.Padding(
                     padding: const pw.EdgeInsets.symmetric(vertical: 4),
                     child: pw.Row(
@@ -127,9 +127,13 @@ class ReportController extends GetxController {
     }
   }
 
+  //get the values of the expenses
+
   //loading the data from the firestore
   var todayExpenses = <Map<String, dynamic>>[];
   String userId = FirebaseAuth.instance.currentUser!.uid;
+  //expense amounts with their respective vcategory mname
+  var expenseamounts = [];
 
   //load the todays expenses list
   Future<void> loadTodayExpenses() async {
@@ -142,11 +146,14 @@ class ReportController extends GetxController {
           .collection('Expense')
           .where('data', isEqualTo: todaysDate)
           .get();
-
+      todayExpenses.clear();
+      expenseamounts.clear();
       //adding the fetched details
       for (var doc in snapshot.docs) {
         todayExpenses.add(doc.data() as Map<String, dynamic>);
+        expenseamounts.add({doc['category']: doc['amount']});
       }
+      print(expenseamounts);
     } catch (e) {
       print("Error loading today's expenses: $e");
     }

@@ -4,10 +4,9 @@ import 'package:expensify_app/app/modules/home/widgets/custom_fab.dart';
 import 'package:expensify_app/app/modules/searchoption/views/searchoption_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 import '../controllers/home_controller.dart';
 
@@ -109,6 +108,7 @@ class HomeView extends GetView<HomeController> {
                             GestureDetector(
                                 onTap: () {
                                   _selectDate(context, homeController);
+
                                   //and now call the loadmonthtransactions here
                                 },
                                 child: SvgPicture.asset(
@@ -237,77 +237,37 @@ class HomeView extends GetView<HomeController> {
                   height: screenSize.height * 0.02,
                 ),
                 Obx(() {
+                  if (homeController.dateSelected.value == true) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildTransactions('${homeController.getMonth()}',
+                            homeController.monthTransactions)
+                      ],
+                    );
+                  }
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       _buildTransactions(
-                          "T O D A Y", homeController.todayTransactions),
-                      _buildTransactions("Y E S T E R D A Y",
-                          homeController.yesterdayTransactions),
+                          'T O D A Y', homeController.todayTransactions),
+                      _buildTransactions('Y E S T E R D A Y',
+                          homeController.yesterdayTransactions)
                     ],
                   );
+
+                  // return Column(
+                  //   crossAxisAlignment: CrossAxisAlignment.start,
+                  //   children: [
+                  //     _buildTransactions(
+                  //         'T O D A Y', homeController.todayTransactions),
+                  //     _buildTransactions('Y E S T E R D A Y',
+                  //         homeController.yesterdayTransactions),
+                  //     _buildTransactions(
+                  //         'title', homeController.monthTransactions)
+                  //   ],
+                  // );
                 })
-                //tody expenses with the respective category icons
-                // Padding(
-                //   padding: EdgeInsets.symmetric(
-                //     horizontal: screenSize.height * 0.02,
-                //   ),
-                //   child: Container(
-                //     decoration: BoxDecoration(
-                //         borderRadius: BorderRadius.circular(12),
-                //         border:
-                //             Border.all(color: Colors.grey.shade400, width: 2)),
-                //     padding: EdgeInsets.symmetric(
-                //         horizontal: screenSize.height * 0.02,
-                //         vertical: screenSize.height * 0.02),
-                //     height: screenSize.height * 0.3,
-                //     child: ListView.builder(
-                //         padding: EdgeInsets.zero,
-                //         //physics: NeverScrollableScrollPhysics(),
-                //         itemCount: controller.todaydetailsdata.length,
-                //         itemBuilder: (context, index) {
-                //           final expenses = controller.todaydetailsdata;
-                //           return ExpenseCard(
-                //             imageUrl: expenses[index].expenseCategorylogo,
-                //             title: expenses[index].expenseTitle,
-                //             category: expenses[index].expenseCategory,
-                //             amount: expenses[index].amount,
-                //           );
-                //         }),
-                //   ),
-                // ),
-                // SizedBox(
-                //   height: screenSize.height * 0.02,
-                // ),
-                // //yesterday expenses container
-                // Padding(
-                //   padding: EdgeInsets.symmetric(
-                //     horizontal: screenSize.height * 0.02,
-                //   ),
-                //   child: Container(
-                //     decoration: BoxDecoration(
-                //         borderRadius: BorderRadius.circular(12),
-                //         border:
-                //             Border.all(color: Colors.grey.shade400, width: 2)),
-                //     padding: EdgeInsets.symmetric(
-                //         horizontal: screenSize.height * 0.02,
-                //         vertical: screenSize.height * 0.02),
-                //     height: screenSize.height * 0.3,
-                //     child: ListView.builder(
-                //         padding: EdgeInsets.zero,
-                //         //physics: NeverScrollableScrollPhysics(),
-                //         itemCount: controller.yesterdaydetailsdata.length,
-                //         itemBuilder: (context, index) {
-                //           final expenses = controller.yesterdaydetailsdata;
-                //           return ExpenseCard(
-                //             imageUrl: expenses[index].expenseCategorylogo,
-                //             title: expenses[index].expenseTitle,
-                //             category: expenses[index].expenseCategory,
-                //             amount: expenses[index].amount,
-                //           );
-                //         }),
-                //   ),
-                // ),
               ],
             ),
           )),
@@ -347,6 +307,9 @@ class HomeView extends GetView<HomeController> {
     );
     if (pickedDate != null && pickedDate != homeController.selectedDate.value) {
       homeController.updateDate(pickedDate);
+      homeController.dateSelected.value = true;
+      await homeController
+          .loadamonthTransactions(DateFormat('yyyyMMdd').format(pickedDate));
     }
   }
 
