@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 import '../controllers/report_controller.dart';
@@ -39,168 +40,185 @@ class ReportView extends GetView<ReportController> {
             ],
           ),
           body: SingleChildScrollView(
-            child: Column(
-              children: [
-                SizedBox(
-                  height: screenSize.height * 0.03,
-                ),
-                //date and the left and the right arrows
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: screenSize.height * 0.04,
-                      vertical: screenSize.height * 0.02),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      //left arrow
-                      SvgPicture.asset("assets/images/left_arrow.svg"),
-                      //date picker and shower
-                      Container(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: screenSize.height * 0.02,
-                            vertical: screenSize.height * 0.01),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: AppColors.lightgreycolor),
-                        child: Row(
-                          children: [
-                            //date picker logo
-                            GestureDetector(
-                                onTap: () {
-                                  _selectDate(context, reportController);
-                                },
-                                child: SvgPicture.asset(
-                                    "assets/images/datepicker.svg")),
+            child: Obx(
+              () => Column(
+                children: [
+                  SizedBox(
+                    height: screenSize.height * 0.03,
+                  ),
+                  //date and the left and the right arrows
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: screenSize.height * 0.04,
+                        vertical: screenSize.height * 0.02),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        //left arrow
+                        SvgPicture.asset("assets/images/left_arrow.svg"),
+                        //date picker and shower
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: screenSize.height * 0.02,
+                              vertical: screenSize.height * 0.01),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: AppColors.lightgreycolor),
+                          child: Row(
+                            children: [
+                              //date picker logo
+                              GestureDetector(
+                                  onTap: () {
+                                    _selectDate(context, reportController);
+                                  },
+                                  child: SvgPicture.asset(
+                                      "assets/images/datepicker.svg")),
 
-                            SizedBox(
-                              width: screenSize.height * 0.01,
-                            ),
-                            //show the picked date data
-                            // ignore: unnecessary_cast
-                            Obx(() => Text(
-                                  '${reportController.formattedDate}',
-                                  style: GoogleFonts.inter(
-                                      textStyle: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w600,
-                                          color:
-                                              AppColors.textmediumGreyColor)),
-                                ))
-                          ],
+                              SizedBox(
+                                width: screenSize.height * 0.01,
+                              ),
+                              //show the picked date data
+                              // ignore: unnecessary_cast
+                              Obx(() => Text(
+                                    '${reportController.formattedDate}',
+                                    style: GoogleFonts.inter(
+                                        textStyle: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600,
+                                            color:
+                                                AppColors.textmediumGreyColor)),
+                                  ))
+                            ],
+                          ),
                         ),
+
+                        //right arrow
+                        SvgPicture.asset("assets/images/right_arrow.svg"),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: screenSize.height * 0.01,
+                  ),
+                  //overview text
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: screenSize.height * 0.02),
+                      child: Text(
+                        'Overview',
+                        style: GoogleFonts.inter(
+                            textStyle: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.textmediumGreyColor)),
                       ),
-
-                      //right arrow
-                      SvgPicture.asset("assets/images/right_arrow.svg"),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: screenSize.height * 0.01,
-                ),
-                //overview text
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: screenSize.height * 0.02),
-                    child: Text(
-                      'Overview',
-                      style: GoogleFonts.inter(
-                          textStyle: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.textmediumGreyColor)),
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: screenSize.height * 0.01,
-                ),
-                //bar plot
-                Obx(() => LinearPercentIndicator(
-                    lineHeight: screenSize.height * 0.05,
-                    animation: true,
-                    animationDuration: 1000,
-                    percent: 1.0,
-                    backgroundColor: AppColors.lightgreycolor,
-                    barRadius: const Radius.circular(12),
-                    linearGradient: LinearGradient(
-                      colors: [
-                        Colors.blue, // Transportation
-                        Colors.red, // Health
-                        Colors.green, // Personal
-                        Colors.purple, // Gifts
-                        Colors.pink, // Electronics
-                        Colors.yellow, // Caffe & Bar
-                      ],
-                      stops: [
-                        reportController.transportationPercentage.value,
-                        reportController.transportationPercentage.value +
-                            reportController.healthPercentage.value,
-                        reportController.transportationPercentage.value +
-                            reportController.healthPercentage.value +
-                            reportController.personalPercentage.value,
-                        reportController.transportationPercentage.value +
-                            reportController.healthPercentage.value +
-                            reportController.personalPercentage.value +
-                            reportController.giftsPercentage.value,
-                        reportController.transportationPercentage.value +
-                            reportController.healthPercentage.value +
-                            reportController.personalPercentage.value +
-                            reportController.giftsPercentage.value +
-                            reportController.electronicsPercentage.value,
-                        1.0,
-                      ],
-                    ))),
+                  SizedBox(
+                    height: screenSize.height * 0.01,
+                  ),
+                  //bar plot
+                  Obx(() => LinearPercentIndicator(
+                      lineHeight: screenSize.height * 0.05,
+                      animation: true,
+                      animationDuration: 1000,
+                      percent: 1.0,
+                      backgroundColor: AppColors.lightgreycolor,
+                      barRadius: const Radius.circular(12),
+                      linearGradient: LinearGradient(
+                        colors: [
+                          Colors.blue, // Transportation
+                          Colors.red, // Health
+                          Colors.green, // Personal
+                          Colors.purple, // Gifts
+                          Colors.pink, // Electronics
+                          Colors.yellow, // Caffe & Bar
+                        ],
+                        stops: [
+                          reportController.transportationPercentage.value,
+                          reportController.transportationPercentage.value +
+                              reportController.healthPercentage.value,
+                          reportController.transportationPercentage.value +
+                              reportController.healthPercentage.value +
+                              reportController.personalPercentage.value,
+                          reportController.transportationPercentage.value +
+                              reportController.healthPercentage.value +
+                              reportController.personalPercentage.value +
+                              reportController.giftsPercentage.value,
+                          reportController.transportationPercentage.value +
+                              reportController.healthPercentage.value +
+                              reportController.personalPercentage.value +
+                              reportController.giftsPercentage.value +
+                              reportController.electronicsPercentage.value,
+                          1.0,
+                        ],
+                      ))),
 
-                SizedBox(
-                  height: screenSize.height * 0.03,
-                ),
-                //details text
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: screenSize.height * 0.02),
-                    child: Text(
-                      "Details",
-                      style: GoogleFonts.inter(
-                          textStyle: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.textmediumGreyColor)),
+                  SizedBox(
+                    height: screenSize.height * 0.03,
+                  ),
+                  //details text
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: screenSize.height * 0.02),
+                      child: Text(
+                        "Details",
+                        style: GoogleFonts.inter(
+                            textStyle: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.textmediumGreyColor)),
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: screenSize.height * 0.02,
-                ),
-                //list using listview builder
-                // Container(
-                //   height: screenSize.height * 0.7,
-                //   child: ListView.builder(
-                //       scrollDirection: Axis.vertical,
-                //       itemCount: details.length,
-                //       itemBuilder: (context, index) {
-                //         final stat_details = details;
-                //         return DetailsListTile(
-                //           expenseamount: stat_details[index].totalAmount,
-                //           expensepercent: stat_details[index].percent,
-                //           expensetitle: stat_details[index].expenseTitle,
-                //           iconUrl: stat_details[index].iconUrl,
-                //           transactions: stat_details[index].totalTransactions,
-                //         );
-                //       }),
-                // )
-                //lets try for loop(inside a column)
-                for (int i = 0; i < reportController.todayExpenses.length; i++)
-                  DetailsListTile(
-                      iconUrl: reportController.todayExpenses[i]['iconUrl'],
-                      expensetitle: reportController.todayExpenses[i]['title'],
-                      expenseamount: reportController.todayExpenses[i]
-                          ['amount'])
-              ],
+                  SizedBox(
+                    height: screenSize.height * 0.02,
+                  ),
+                  //list using listview builder
+                  // Container(
+                  //   height: screenSize.height * 0.7,
+                  //   child: ListView.builder(
+                  //       scrollDirection: Axis.vertical,
+                  //       itemCount: details.length,
+                  //       itemBuilder: (context, index) {
+                  //         final stat_details = details;
+                  //         return DetailsListTile(
+                  //           expenseamount: stat_details[index].totalAmount,
+                  //           expensepercent: stat_details[index].percent,
+                  //           expensetitle: stat_details[index].expenseTitle,
+                  //           iconUrl: stat_details[index].iconUrl,
+                  //           transactions: stat_details[index].totalTransactions,
+                  //         );
+                  //       }),
+                  // )
+                  //lets try for loop(inside a column)
+                  if (reportController.dateSelected.value == true)
+                    for (int i = 0;
+                        i < reportController.monthTransactions.length;
+                        i++)
+                      DetailsListTile(
+                          iconUrl: reportController.monthTransactions[i]
+                              ['iconUrl'],
+                          expensetitle: reportController.monthTransactions[i]
+                              ['title'],
+                          expenseamount: reportController.monthTransactions[i]
+                              ['amount'])
+                  else
+                    for (int i = 0;
+                        i < reportController.todayExpenses.length;
+                        i++)
+                      DetailsListTile(
+                          iconUrl: reportController.todayExpenses[i]['iconUrl'],
+                          expensetitle: reportController.todayExpenses[i]
+                              ['title'],
+                          expenseamount: reportController.todayExpenses[i]
+                              ['amount'])
+                ],
+              ),
             ),
           ),
         ),
@@ -240,6 +258,9 @@ class ReportView extends GetView<ReportController> {
     if (pickedDate != null &&
         pickedDate != reportController.selectedDate.value) {
       reportController.updateDate(pickedDate);
+      reportController.dateSelected.value = true;
+      await reportController
+          .loadamonthTransactions(DateFormat('yyyyMMdd').format(pickedDate));
     }
   }
 }

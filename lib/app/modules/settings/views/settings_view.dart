@@ -1,6 +1,8 @@
 import 'package:expensify_app/app/data/values/appcolors.dart';
 import 'package:expensify_app/app/modules/addnew/controllers/addnew_controller.dart';
 import 'package:expensify_app/app/modules/managecategory/views/managecategory_view.dart';
+import 'package:expensify_app/app/modules/report/views/report_view.dart';
+import 'package:expensify_app/app/modules/settings/views/frequently_asked_questions.dart';
 import 'package:expensify_app/app/modules/settings/widgets/logoutdialogbox.dart';
 import 'package:expensify_app/app/modules/settings/widgets/settingsoptioncards.dart';
 import 'package:flutter/material.dart';
@@ -115,7 +117,9 @@ class SettingsView extends GetView<SettingsController> {
           SettingOptions(
               imageUrl: "assets/images/exportpdf.svg",
               optionName: 'Export to PDF',
-              onTap: () {}),
+              onTap: () {
+                Get.to(() => ReportView());
+              }),
           // SettingOptions(
           //     imageUrl: "assets/images/currency.svg",
           //     optionName: "Choose currency",
@@ -129,7 +133,9 @@ class SettingsView extends GetView<SettingsController> {
           SettingOptions(
               imageUrl: "assets/images/questions.svg",
               optionName: "Frequently asked questions",
-              onTap: () {}),
+              onTap: () {
+                Get.to(() => AskedQuestions());
+              }),
           //logout option
           GestureDetector(
             onTap: () {

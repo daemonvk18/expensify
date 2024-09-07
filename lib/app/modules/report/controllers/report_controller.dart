@@ -10,6 +10,8 @@ import 'package:permission_handler/permission_handler.dart';
 class ReportController extends GetxController {
   //the varaiable to store the date picked
   var selectedDate = DateTime.now().obs;
+  RxList<Map<String, dynamic>> monthTransactions = <Map<String, dynamic>>[].obs;
+  var dateSelected = false.obs;
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   //method to update the selected date
@@ -156,6 +158,46 @@ class ReportController extends GetxController {
       print(expenseamounts);
     } catch (e) {
       print("Error loading today's expenses: $e");
+    }
+  }
+
+  //load a monthdata when selected a particular date
+  Future<void> loadamonthTransactions(String date) async {
+    print(date.substring(0, 6));
+    try {
+      List<Map<String, dynamic>> transactions = [];
+      // Fetch expenses for the selected month
+      QuerySnapshot expenseSnapshot = await _firestore
+          .collection('users')
+          .doc(userId)
+          .collection('Expense')
+          .get();
+
+      for (var doc in expenseSnapshot.docs) {
+        String expenseDate = doc['data'];
+        if (expenseDate.substring(0, 6) == date.substring(0, 6)) {
+          transactions.add(doc.data() as Map<String, dynamic>);
+        }
+      }
+
+      // Fetch incomes for the selected month
+      QuerySnapshot incomeSnapshot = await _firestore
+          .collection('users')
+          .doc(userId)
+          .collection('Income')
+          .get();
+
+      for (var doc in incomeSnapshot.docs) {
+        String incomeDate = doc['data'];
+        if (incomeDate == date.substring(0, 6)) {
+          transactions.add(doc.data() as Map<String, dynamic>);
+        }
+      }
+
+      // Update the list of transactions for the selected month
+      monthTransactions.value = transactions;
+    } catch (e) {
+      print("Error loading transactions for the month: $e");
     }
   }
 
